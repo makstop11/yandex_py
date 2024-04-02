@@ -1,7 +1,11 @@
-n = int(input())
-count = 0
+n = float(input())
+total = 0
 
-for i in range(n):
-    count += n
-    s = count // 100 * 10
-    print(s - count)
+while n != 0:
+    if n >= 500:
+        delta = n - (n * 0.1)
+        total += delta
+    else:
+        total += n
+    n = float(input())
+print(total)
