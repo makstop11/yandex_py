@@ -12,6 +12,7 @@ while s != 'СТОП':
         y += n
     else:
         y -= n
+    s = input()
 
 print(y)
 print(x)
