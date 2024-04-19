@@ -3,7 +3,8 @@ n = int(input())
 mx = 0
 while n > 0:
     last_digit = n % 10
-
-    # TODO: Нужно проверить, является ли текущая цифра максимальной
-
+    if last_digit > mx:
+        mx = n % 10
     n //= 10
+
+print(mx)
