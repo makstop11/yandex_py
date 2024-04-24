@@ -1,18 +1,16 @@
-s = input()
 x = 0
 y = 0
 
-while s != 'СТОП':
+while (direction := input()) != 'СТОП':
     n = int(input())
-    if s == 'ВОСТОК':
+    if direction == 'ВОСТОК':
         x += n
-    elif s == 'ЗАПАД':
+    elif direction == 'ЗАПАД':
         x -= n
-    elif s == 'СЕВЕР':
+    elif direction == 'СЕВЕР':
         y += n
-    else:
+    elif direction == 'ЮГ':
         y -= n
-    s = input()
 
 print(y)
 print(x)
