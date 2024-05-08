@@ -35,24 +35,36 @@ def make_digit_button(digit):
 
 
 def make_operation_button(operation):
-    return tk.Button(text=operation, bd=5, font=('Arial', 13), fg='red',
+    return tk.Button(text=operation, bd=5, font=('Arial', 13), fg='black',
                      command=lambda: add_operation(operation))
 
 
 def make_calc_button(operation):
-    return tk.Button(text=operation, bd=5, font=('Arial', 13), fg='red',
+    return tk.Button(text=operation, bd=5, font=('Arial', 13), fg='violet',
                      command=calculate)
 
 
 def make_clear_button(operation):
-    return tk.Button(text=operation, bd=5, font=('Arial', 13), fg='red',
+    return tk.Button(text=operation, bd=5, font=('Arial', 13), fg='black',
                      command=clear)
 
 
+def press_key(event):
+    print(repr(event.char))
+    if event.char.isdigit():
+        add_digit(event.char)
+    elif event.char in '+-*/':
+        add_operation(event.char)
+    elif event.char == '\r':
+        calculate()
+
 win = tk.Tk()
-win.geometry('240x270')  #  TODO сделать так чтобы нельзя было изменить размер окна
-win['bg'] = '#273746'
+win.geometry('240x270')
+win['bg'] = '#754076'
+win.wm_resizable(False, False)
 win.title('калькулятор')
+
+win.bind('<Key>', press_key)
 
 calc = tk.Entry(win, justify=tk.RIGHT, font=('Arial', 15), width=15)
 calc.insert(0, '0')
