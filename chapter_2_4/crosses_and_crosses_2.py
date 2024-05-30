@@ -1,18 +1,22 @@
-#  https://translated.turbopages.org/proxy_u/en-ru.ru.c31595fa-664e3344-cb6067a5-74722d776562/https/www.geeksforgeeks.org/tic-tac-toe-game-with-gui-using-tkinter-in-python/
-#  https://translated.turbopages.org/proxy_u/en-ru.ru.c31595fa-664e3344-cb6067a5-74722d776562/https/www.geeksforgeeks.org/tic-tac-toe-game-using-pyqt5-in-python/
-
+# 1. Встроенные модули
 import random
-import tkinter
-from tkinter import *
-from functools import partial
-from tkinter import messagebox
 from copy import deepcopy
+from functools import partial
+from tkinter import ACTIVE, Button, DISABLED, Tk, messagebox
+
+#  INFO: CTRL + SHIFT + стрелка
+
+# 2. Внешние модули
+
+
+# 3. Модули проекта
+
+
+# TODO: 1. Убрать ненужные комментарии
 
 # sign variable to decide the turn of which player
 sign = 0
 
-# Creates an empty board
-global board
 board = [[" " for x in range(3)] for y in range(3)]
 
 
@@ -20,17 +24,20 @@ board = [[" " for x in range(3)] for y in range(3)]
 # according to the rules of the game
 
 
+# TODO: 2. Дать понятные имена параметрам b и l
+# INFO: Удерживать ALT + клик или SHIFT + F6
 def winner(b, l):
-    return ((b[0][0] == l and b[0][1] == l and b[0][2] == l) or
-            (b[1][0] == l and b[1][1] == l and b[1][2] == l) or
-            (b[2][0] == l and b[2][1] == l and b[2][2] == l) or
-            (b[0][0] == l and b[1][0] == l and b[2][0] == l) or
-            (b[0][1] == l and b[1][1] == l and b[2][1] == l) or
-            (b[0][2] == l and b[1][2] == l and b[2][2] == l) or
-            (b[0][0] == l and b[1][1] == l and b[2][2] == l) or
-            (b[0][2] == l and b[1][1] == l and b[2][0] == l))
+    return ((b[0][0] == l and b[0][1] == l and b[0][2] == l)
+            or (b[1][0] == l and b[1][1] == l and b[1][2] == l)
+            or (b[2][0] == l and b[2][1] == l and b[2][2] == l)
+            or (b[0][0] == l and b[1][0] == l and b[2][0] == l)
+            or (b[0][1] == l and b[1][1] == l and b[2][1] == l)
+            or (b[0][2] == l and b[1][2] == l and b[2][2] == l)
+            or (b[0][0] == l and b[1][1] == l and b[2][2] == l)
+            or (b[0][2] == l and b[1][1] == l and b[2][0] == l))
 
 
+# TODO: 3. Дать понятные имена параметрам gb, l1 и l2
 # Configure text on button while playing with another player
 def get_text(i, j, gb, l1, l2):
     global sign
@@ -47,25 +54,25 @@ def get_text(i, j, gb, l1, l2):
         button[i][j].config(text=board[i][j])
     if winner(board, "X"):
         gb.destroy()
-        box = messagebox.showinfo("Побеждант", "1 игрок")
+        messagebox.showinfo("Побеждает", "1 игрок")
     elif winner(board, "O"):
         gb.destroy()
-        box = messagebox.showinfo("Побеждант", "1 игрок")
+        messagebox.showinfo("Побеждает", "1 игрок")
     elif (isfull()):
         gb.destroy()
-        box = messagebox.showinfo("Игра вничью", "Игра вничью")
+        messagebox.showinfo("Игра вничью", "Игра вничью")
 
 
 # Check if the player can push the button or not
 
-
+# TODO: 4. Функция нигде в коде не используется
 def isfree(i, j):
     return board[i][j] == " "
 
 
 # Check the board is full or not
 
-
+# TODO: 5. Использовать стиль snake_case (замечание общее)
 def isfull():
     flag = True
     for i in board:
@@ -77,7 +84,7 @@ def isfull():
 # Create the GUI of game board for play along with another player
 
 
-def gameboard_pl(game_board, l1, l2):
+def game_board_pl(game_board, l1, l2):
     global button
     button = []
     for i in range(3):
@@ -98,35 +105,35 @@ def gameboard_pl(game_board, l1, l2):
 
 
 def pc():
-    possiblemove = []
+    possible_move = []
     for i in range(len(board)):
         for j in range(len(board[i])):
             if board[i][j] == ' ':
-                possiblemove.append([i, j])
-    move = []
-    if possiblemove == []:
+                possible_move.append([i, j])
+    # if possible_move == []:
+    if not possible_move:
         return
-    else:
-        for let in ['O', 'X']:
-            for i in possiblemove:
-                boardcopy = deepcopy(board)
-                boardcopy[i[0]][i[1]] = let
-                if winner(boardcopy, let):
-                    return i
-        corner = []
-        for i in possiblemove:
-            if i in [[0, 0], [0, 2], [2, 0], [2, 2]]:
-                corner.append(i)
-        if len(corner) > 0:
-            move = random.randint(0, len(corner) - 1)
-            return corner[move]
-        edge = []
-        for i in possiblemove:
-            if i in [[0, 1], [1, 0], [1, 2], [2, 1]]:
-                edge.append(i)
-        if len(edge) > 0:
-            move = random.randint(0, len(edge) - 1)
-            return edge[move]
+
+    for let in ['O', 'X']:
+        for i in possible_move:
+            boardcopy = deepcopy(board)
+            boardcopy[i[0]][i[1]] = let
+            if winner(boardcopy, let):
+                return i
+    corner = []
+    for i in possible_move:
+        if i in [[0, 0], [0, 2], [2, 0], [2, 2]]:
+            corner.append(i)
+    if len(corner) > 0:
+        move = random.randint(0, len(corner) - 1)
+        return corner[move]
+    edge = []
+    for i in possible_move:
+        if i in [[0, 1], [1, 0], [1, 2], [2, 1]]:
+            edge.append(i)
+    if len(edge) > 0:
+        move = random.randint(0, len(edge) - 1)
+        return edge[move]
 
 
 # Configure text on button while playing with system
@@ -150,15 +157,15 @@ def get_text_pc(i, j, gb, l1, l2):
     if winner(board, "X"):
         gb.destroy()
         x = False
-        box = messagebox.showinfo("Побеждает", "игрок")
+        messagebox.showinfo("Побеждает", "игрок")
     elif winner(board, "O"):
         gb.destroy()
         x = False
-        box = messagebox.showinfo("Побеждает", "компютер")
+        messagebox.showinfo("Побеждает", "компютер")
     elif (isfull()):
         gb.destroy()
         x = False
-        box = messagebox.showinfo("Игра вничью", "Игра вничью")
+        messagebox.showinfo("Игра вничью", "Игра вничью")
     if (x):
         if sign % 2 != 0:
             move = pc()
@@ -216,7 +223,7 @@ def withplayer(game_board):
                 width=10, state=DISABLED)
 
     l2.grid(row=2, column=1)
-    gameboard_pl(game_board, l1, l2)
+    game_board_pl(game_board, l1, l2)
 
 
 # main function
