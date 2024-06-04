@@ -1,25 +1,50 @@
 import turtle
 from random import choice, randint
 
+WINDOWS_BG_COLOR: str = "gray"
+
+GAME_BOARD_WIDTH: int = 600
+GAME_BOARD_HEIGHT: int = 300
+
+STRETCH_LEN: int = 1
+STRETCH_WID: int = 5
+
+PLAYER_1_COLOR: str = "yellow"
+PLAYER_2_COLOR: str = "black"
+
+PLAYER_1_SIDE: int = -GAME_BOARD_WIDTH + 50
+PLAYER_2_SIDE: int = GAME_BOARD_WIDTH - 50
+
+player_1_score: int = 0
+player_2_score: int = 0
+
+GAME_BOARD_BG_COLOR: str = "green"
+GAME_BOARD_ELEMENTS_COLOR: str = "white"
+
+FONT: tuple[str, int, str] = ("Arial", 44, "bold")
+
+# Основное окно
 window = turtle.Screen()
 window.title("Ping-Pong")
-window.setup(width=1.0, height=1.0)
-window.bgcolor("black")
-window.tracer(2)
+window.setup(width=0.8, height=0.8)
+window.bgcolor(WINDOWS_BG_COLOR)
+window.tracer(1)
 
+# Игровое поле
 border = turtle.Turtle()
 border.speed(0)
-border.color('green')
+border.color(GAME_BOARD_BG_COLOR)
 border.begin_fill()
-border.goto(-500, 300)
-border.goto(500, 300)
-border.goto(500, -300)
-border.goto(-500, -300)
-border.goto(-500, 300)
+border.goto(-GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT)
+border.goto(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT)
+border.goto(GAME_BOARD_WIDTH, -GAME_BOARD_HEIGHT)
+border.goto(-GAME_BOARD_WIDTH, -GAME_BOARD_HEIGHT)
+border.goto(-GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT)
 border.end_fill()
 
-border.goto(0, 300)
-border.color('white')
+# Элементы игрового поля
+border.goto(0, GAME_BOARD_HEIGHT)
+border.color(GAME_BOARD_ELEMENTS_COLOR)
 border.setheading(270)
 for i in range(25):
     if i % 2 == 0:
@@ -30,35 +55,36 @@ for i in range(25):
         border.down()
 border.hideturtle()
 
+# Игрок 1
 rocket_a = turtle.Turtle()
-rocket_a.color('white')
-rocket_a.shape('square')
-rocket_a.shapesize(stretch_len=1, stretch_wid=5)
+rocket_a.color(PLAYER_1_COLOR)
+rocket_a.shape("square")
+rocket_a.shapesize(stretch_len=STRETCH_LEN, stretch_wid=STRETCH_WID)
 rocket_a.penup()
-rocket_a.goto(-450, 0)
+rocket_a.goto(PLAYER_1_SIDE, 0)
 
+player_1_score = 0
+s1 = turtle.Turtle(visible=False)
+s1.color(PLAYER_1_COLOR)
+s1.penup()
+s1.setposition(-GAME_BOARD_WIDTH + GAME_BOARD_WIDTH // 2, GAME_BOARD_HEIGHT)
+s1.write(player_1_score, font=FONT)
+
+# Игрок 2
 rocket_b = turtle.Turtle()
 rocket_b.speed(3)
+rocket_b.color(PLAYER_2_COLOR)
 rocket_b.shape("square")
-rocket_b.color("white")
-rocket_b.shapesize(stretch_wid=5, stretch_len=1)
+rocket_b.shapesize(stretch_len=STRETCH_LEN, stretch_wid=STRETCH_WID)
 rocket_b.penup()
-rocket_b.goto(450, 0)
+rocket_b.goto(PLAYER_2_SIDE, 0)
 
-FONT = ("Arial", 44)
-score_a = 0
-s1 = turtle.Turtle(visible=False)
-s1.color('white')
-s1.penup()
-s1.setposition(-200, 300)
-s1.write(score_a, font=FONT)
-
-score_b = 0
+player_2_score = 0
 s2 = turtle.Turtle(visible=False)
-s2.color('white')
+s2.color(PLAYER_2_COLOR)
 s2.penup()
-s2.setposition(200, 300)
-s2.write(score_a, font=FONT)
+s2.setposition(GAME_BOARD_WIDTH - GAME_BOARD_WIDTH // 2, GAME_BOARD_HEIGHT)
+s2.write(player_1_score, font=FONT)
 
 
 def move_up():
@@ -89,10 +115,11 @@ def move_down_b():
     rocket_b.sety(y)
 
 
+# Мяч
 ball = turtle.Turtle()
-ball.shape('circle')
+ball.shape("circle")
 ball.speed(0)
-ball.color('red')
+ball.color("red")
 ball.dx = 3
 ball.dy = -3
 ball.penup()
@@ -102,6 +129,8 @@ window.onkeypress(move_up, "w")
 window.onkeypress(move_down, "s")
 window.onkeypress(move_up_b, "Up")
 window.onkeypress(move_down_b, "Down")
+
+# window.mainloop()
 
 while True:
     window.update()
@@ -116,27 +145,35 @@ while True:
         ball.dy = -ball.dy
 
     if ball.xcor() >= 490:
-        score_b += 1
+        player_2_score += 1
         s2.clear()
-        s2.write(score_b, font=FONT)
+        s2.write(player_2_score, font=FONT)
         ball.goto(0, randint(-150, 150))
         ball.dx = choice([-4, -3, -2, 2, 3, 4])
         ball.dy = choice([-4, -3, -2, 2, 3, 4])
 
     if ball.xcor() <= -490:
-        score_a += 1
+        player_1_score += 1
         s1.clear()
-        s1.write(score_a, font=FONT)
+        s1.write(player_1_score, font=FONT)
         ball.goto(0, randint(-150, 150))
         ball.dx = choice([-4, -3, -2, 2, 3, 4])
         ball.dy = choice([-4, -3, -2, 2, 3, 4])
 
-    if ball.ycor() >= rocket_b.ycor() - 50 and ball.ycor() <= rocket_b.ycor() + 50 \
-            and ball.xcor() >= rocket_b.xcor() - 5 and ball.xcor() <= rocket_b.xcor() + 5:
+    if (
+            ball.ycor() >= rocket_b.ycor() - 50
+            and ball.ycor() <= rocket_b.ycor() + 50
+            and ball.xcor() >= rocket_b.xcor() - 5
+            and ball.xcor() <= rocket_b.xcor() + 5
+    ):
         ball.dx = -ball.dx
 
-    if ball.ycor() >= rocket_a.ycor() - 50 and ball.ycor() <= rocket_a.ycor() + 50 \
-            and ball.xcor() >= rocket_a.xcor() - 5 and ball.xcor() <= rocket_a.xcor() + 5:
+    if (
+            ball.ycor() >= rocket_a.ycor() - 50
+            and ball.ycor() <= rocket_a.ycor() + 50
+            and ball.xcor() >= rocket_a.xcor() - 5
+            and ball.xcor() <= rocket_a.xcor() + 5
+    ):
         ball.dx = -ball.dx
 
 window.mainloop()
