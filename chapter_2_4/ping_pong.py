@@ -1,179 +1,203 @@
 import turtle
 from random import choice, randint
 
-WINDOWS_BG_COLOR: str = "gray"
-
-GAME_BOARD_WIDTH: int = 600
-GAME_BOARD_HEIGHT: int = 300
-
+WINDOWS_BG_COLOR: str = "#013220"
+WINDOW_WIDTH: int = 1000
+WINDOW_HEIGHT: int = 600
+GAME_BOARD_WIDTH: int = (WINDOW_WIDTH // 2) - 60
+GAME_BOARD_HEIGHT: int = (WINDOW_HEIGHT // 2) - 60
 STRETCH_LEN: int = 1
 STRETCH_WID: int = 5
-
-PLAYER_1_COLOR: str = "yellow"
-PLAYER_2_COLOR: str = "black"
-
+PLAYER_1_COLOR: str = "#ddd"
+PLAYER_2_COLOR: str = "orange"
 PLAYER_1_SIDE: int = -GAME_BOARD_WIDTH + 50
 PLAYER_2_SIDE: int = GAME_BOARD_WIDTH - 50
-
-player_1_score: int = 0
-player_2_score: int = 0
-
-GAME_BOARD_BG_COLOR: str = "green"
+GAME_BOARD_BG_COLOR: str = "#44944A"
 GAME_BOARD_ELEMENTS_COLOR: str = "white"
+FONT: tuple[str, int, str] = ("Arial", 36, "bold")
+BALL_COLOR: str = "red"
+BALL_SHAPE: str = "circle"
+INITIAL_BALL_DX: int = 5
+INITIAL_BALL_DY: int = -5
+SPEED_INCREMENT: int = 10
+BALL_SPEEDS: list[int | float] = [-6, 5.5, 5.5, 6]
+ROCKET_SPEED: int = 20
+ROCKET_SHAPE: str = "square"
+MAX_Y: int = GAME_BOARD_HEIGHT - 10
+MIN_Y: int = -GAME_BOARD_HEIGHT + 10
+MAX_X: int = GAME_BOARD_WIDTH - 10
+MIN_X: int = -GAME_BOARD_WIDTH + 10
+ROCKET_MAX_Y: int = GAME_BOARD_HEIGHT - 50
+ROCKET_MIN_Y: int = -GAME_BOARD_HEIGHT + 50
+ROCKET_HALF_HEIGHT: int = 50
+ROCKET_HALF_WIDTH: int = 10
 
-FONT: tuple[str, int, str] = ("Arial", 44, "bold")
 
-# Основное окно
-window = turtle.Screen()
-window.title("Ping-Pong")
-window.setup(width=0.8, height=0.8)
-window.bgcolor(WINDOWS_BG_COLOR)
-window.tracer(1)
+def create_game_board():
+    game_board = turtle.Turtle()
+    game_board.speed(0)
+    game_board.color(GAME_BOARD_BG_COLOR)
+    game_board.begin_fill()
+    game_board.goto(-GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT)
+    game_board.goto(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT)
+    game_board.goto(GAME_BOARD_WIDTH, -GAME_BOARD_HEIGHT)
+    game_board.goto(-GAME_BOARD_WIDTH, -GAME_BOARD_HEIGHT)
+    game_board.goto(-GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT)
+    game_board.end_fill()
 
-# Игровое поле
-border = turtle.Turtle()
-border.speed(0)
-border.color(GAME_BOARD_BG_COLOR)
-border.begin_fill()
-border.goto(-GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT)
-border.goto(GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT)
-border.goto(GAME_BOARD_WIDTH, -GAME_BOARD_HEIGHT)
-border.goto(-GAME_BOARD_WIDTH, -GAME_BOARD_HEIGHT)
-border.goto(-GAME_BOARD_WIDTH, GAME_BOARD_HEIGHT)
-border.end_fill()
+    # Элементы игрового поля
+    game_board.goto(0, GAME_BOARD_HEIGHT)
+    game_board.color(GAME_BOARD_ELEMENTS_COLOR)
+    game_board.setheading(270)
+    for i in range(25):
+        if i % 2 == 0:
+            game_board.forward(24)
+        else:
+            game_board.up()
+            game_board.forward(24)
+            game_board.down()
+    game_board.hideturtle()
 
-# Элементы игрового поля
-border.goto(0, GAME_BOARD_HEIGHT)
-border.color(GAME_BOARD_ELEMENTS_COLOR)
-border.setheading(270)
-for i in range(25):
-    if i % 2 == 0:
-        border.forward(24)
-    else:
-        border.up()
-        border.forward(24)
-        border.down()
-border.hideturtle()
 
-# Игрок 1
-rocket_a = turtle.Turtle()
-rocket_a.color(PLAYER_1_COLOR)
-rocket_a.shape("square")
-rocket_a.shapesize(stretch_len=STRETCH_LEN, stretch_wid=STRETCH_WID)
-rocket_a.penup()
-rocket_a.goto(PLAYER_1_SIDE, 0)
+def create_rocket(color, x_pos):
+    rocket = turtle.Turtle()
+    rocket.color(color)
+    rocket.shape(ROCKET_SHAPE)
+    rocket.shapesize(stretch_wid=STRETCH_WID, stretch_len=STRETCH_LEN)
+    rocket.penup()
+    rocket.goto(x_pos, 0)
+    rocket.setheading(0)
+    return rocket
 
-player_1_score = 0
-s1 = turtle.Turtle(visible=False)
-s1.color(PLAYER_1_COLOR)
-s1.penup()
-s1.setposition(-GAME_BOARD_WIDTH + GAME_BOARD_WIDTH // 2, GAME_BOARD_HEIGHT)
-s1.write(player_1_score, font=FONT)
 
-# Игрок 2
-rocket_b = turtle.Turtle()
-rocket_b.speed(3)
-rocket_b.color(PLAYER_2_COLOR)
-rocket_b.shape("square")
-rocket_b.shapesize(stretch_len=STRETCH_LEN, stretch_wid=STRETCH_WID)
-rocket_b.penup()
-rocket_b.goto(PLAYER_2_SIDE, 0)
+def score_display(color, x_pos):
+    score_field = turtle.Turtle(visible=False)
+    score_field.color(color)
+    score_field.penup()
+    score_field.setposition(x_pos, GAME_BOARD_HEIGHT)
+    score_field.write(0, font=FONT)
+    return score_field
 
-player_2_score = 0
-s2 = turtle.Turtle(visible=False)
-s2.color(PLAYER_2_COLOR)
-s2.penup()
-s2.setposition(GAME_BOARD_WIDTH - GAME_BOARD_WIDTH // 2, GAME_BOARD_HEIGHT)
-s2.write(player_1_score, font=FONT)
+
+def move_rocket(rocket, direction):
+    y = rocket.ycor() + direction * ROCKET_SPEED
+    if y > ROCKET_MAX_Y:
+        y = ROCKET_MAX_Y
+    elif y < ROCKET_MIN_Y:
+        y = ROCKET_MIN_Y
+    rocket.sety(y)
 
 
 def move_up():
-    y = rocket_a.ycor() + 10
-    if y > 250:
-        y = 250
-    rocket_a.sety(y)
+    move_rocket(rocket_a, 1)
 
 
 def move_down():
-    y = rocket_a.ycor() - 10
-    if y < -250:
-        y = -250
-    rocket_a.sety(y)
+    move_rocket(rocket_a, -1)
 
 
 def move_up_b():
-    y = rocket_b.ycor() + 10
-    if y > 250:
-        y = 250
-    rocket_b.sety(y)
+    move_rocket(rocket_b, 1)
 
 
 def move_down_b():
-    y = rocket_b.ycor() - 10
-    if y < -250:
-        y = -250
-    rocket_b.sety(y)
+    move_rocket(rocket_b, -1)
 
 
-# Мяч
-ball = turtle.Turtle()
-ball.shape("circle")
-ball.speed(0)
-ball.color("red")
-ball.dx = 3
-ball.dy = -3
-ball.penup()
+def update_score(score_field, score):
+    score_field.clear()
+    score_field.write(score, font=FONT)
 
-window.listen()
-window.onkeypress(move_up, "w")
-window.onkeypress(move_down, "s")
-window.onkeypress(move_up_b, "Up")
-window.onkeypress(move_down_b, "Down")
 
-# window.mainloop()
+def check_collision(rocket, curr_ball):
+    rocket_b_top = rocket.ycor() + ROCKET_HALF_HEIGHT
+    rocket_b_bottom = rocket.ycor() - ROCKET_HALF_HEIGHT
+    rocket_a_right = rocket.xcor() + ROCKET_HALF_WIDTH
+    rocket_a_left = rocket.xcor() - ROCKET_HALF_WIDTH
 
-while True:
+    return (
+            rocket_b_bottom < curr_ball.ycor() < rocket_b_top
+            and rocket_a_left < curr_ball.xcor() < rocket_a_right
+    )
+
+
+def game_loop():
+    global player_1_score, player_2_score
+
     window.update()
 
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
 
-    if ball.ycor() >= 290:
-        ball.dy = -ball.dy
+    if ball.ycor() >= MAX_Y:
+        ball.dy *= -1
 
-    if ball.ycor() <= -290:
-        ball.dy = -ball.dy
+    if ball.ycor() <= MIN_Y:
+        ball.dy *= -1
 
-    if ball.xcor() >= 490:
-        player_2_score += 1
-        s2.clear()
-        s2.write(player_2_score, font=FONT)
-        ball.goto(0, randint(-150, 150))
-        ball.dx = choice([-4, -3, -2, 2, 3, 4])
-        ball.dy = choice([-4, -3, -2, 2, 3, 4])
-
-    if ball.xcor() <= -490:
+    if ball.xcor() >= MAX_X:
         player_1_score += 1
-        s1.clear()
-        s1.write(player_1_score, font=FONT)
-        ball.goto(0, randint(-150, 150))
-        ball.dx = choice([-4, -3, -2, 2, 3, 4])
-        ball.dy = choice([-4, -3, -2, 2, 3, 4])
+        update_score(player_1_score_info, player_1_score)
+        reset_ball()
 
-    if (
-            ball.ycor() >= rocket_b.ycor() - 50
-            and ball.ycor() <= rocket_b.ycor() + 50
-            and ball.xcor() >= rocket_b.xcor() - 5
-            and ball.xcor() <= rocket_b.xcor() + 5
-    ):
-        ball.dx = -ball.dx
+    if ball.xcor() <= MIN_X:
+        player_2_score += 1
+        update_score(player_2_score_info, player_2_score)
+        reset_ball()
 
-    if (
-            ball.ycor() >= rocket_a.ycor() - 50
-            and ball.ycor() <= rocket_a.ycor() + 50
-            and ball.xcor() >= rocket_a.xcor() - 5
-            and ball.xcor() <= rocket_a.xcor() + 5
-    ):
-        ball.dx = -ball.dx
+    if check_collision(rocket_b, ball):
+        ball.dx *= -1
 
-window.mainloop()
+    if check_collision(rocket_a, ball):
+        ball.dx *= -1
+
+    window.ontimer(game_loop, SPEED_INCREMENT)
+
+
+def reset_ball():
+    ball.goto(0, randint(-WINDOW_HEIGHT // 2, WINDOW_HEIGHT // 2))
+    ball.dx = choice(BALL_SPEEDS)
+    ball.dy = choice(BALL_SPEEDS)
+
+
+if __name__ == "__main__":
+    # Инициализация окна
+    window = turtle.Screen()
+    window.title("Ping-Pong")
+    window.setup(width=WINDOW_WIDTH, height=WINDOW_HEIGHT)
+    window.bgcolor(WINDOWS_BG_COLOR)
+    window.tracer(1)
+
+    create_game_board()
+
+    rocket_a = create_rocket(PLAYER_1_COLOR, PLAYER_1_SIDE)
+    rocket_b = create_rocket(PLAYER_2_COLOR, PLAYER_2_SIDE)
+
+    player_1_score = 0
+    player_2_score = 0
+    player_1_score_info = score_display(
+        PLAYER_1_COLOR, -GAME_BOARD_WIDTH + GAME_BOARD_WIDTH // 2
+    )
+    player_2_score_info = score_display(
+        PLAYER_2_COLOR, GAME_BOARD_WIDTH - GAME_BOARD_WIDTH // 2
+    )
+
+    # Инициализация мяча
+    ball = turtle.Turtle()
+    ball.shape(BALL_SHAPE)
+    ball.speed(0)
+    ball.color(BALL_COLOR)
+    ball.dx = INITIAL_BALL_DX
+    ball.dy = INITIAL_BALL_DY
+    ball.penup()
+
+    # Запуск прослушивателя событий
+    window.listen()
+    window.onkeypress(move_up, "w")
+    window.onkeypress(move_down, "s")
+    window.onkeypress(move_up_b, "Up")
+    window.onkeypress(move_down_b, "Down")
+
+    # Запуск игрового процесса
+    game_loop()
+    window.mainloop()
