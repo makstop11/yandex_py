@@ -1,13 +1,5 @@
-# def alphanumeric_restriction(s):
-#     if type(s) is int or type(s) is str:
-#         return True
-#     else:
-#         return False
+# https://codechick.io/challenges/345
 
-#-----------------------------------------------------------------------------------------
 
 def alphanumeric_restriction(s):
-    if s.isdigit() or s.isalpha():
-        return True
-    else:
-        return False
+    return s.isalpha() or s.isdigit()

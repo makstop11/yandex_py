@@ -1,3 +1,6 @@
+# https://codechick.io/challenges/35
+
+
 def profitable_gamble(prob, prize, pay):
     prob = int(input())
     prize = int(input())
@@ -7,5 +10,4 @@ def profitable_gamble(prob, prize, pay):
     else:
         return False
 
-
-# https://codechick.io/challenges/35
+# TODO: Неверное решение: переделать.

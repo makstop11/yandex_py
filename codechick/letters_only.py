@@ -1,8 +1,10 @@
-def letters_only(txt):
-    s = []
-    for i in txt:
-        if i.isalpha():
-            s.append(i)
-    return "".join(s)
-
 #  https://codechick.io/challenges/375
+
+
+def letters_only(txt):
+    result: str = ""
+    for char in txt:
+        if char.isalpha():
+            result += char
+
+    return result

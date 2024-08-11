@@ -1,10 +1,18 @@
+# https://codechick.io/challenges/343
+
+
 def is_valid_PIN(pin):
     if pin.isdigit():
-        if len(pin) == 4 or len(pin) == 6:
+        # length: int = len(pin)
+        # if length == 4 or length == 6:
+        if len(pin) in [4, 6]:
             return True
         else:
             return False
     else:
         return False
 
-# https://codechick.io/challenges/343
+
+# После рефакторинга
+def is_valid_PIN_2(pin):
+    return pin.isdigit() and len(pin) in [4, 6]

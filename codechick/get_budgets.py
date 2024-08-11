@@ -1,7 +1,8 @@
-def get_budgets(lst):
-    count = 0
-    for i in lst:
-        count += i['budget']
-    return count
-
 # https://codechick.io/challenges/397
+
+
+def get_budgets(lst):
+    total_sum = 0
+    for data in lst:
+        total_sum += data['budget']
+    return total_sum
