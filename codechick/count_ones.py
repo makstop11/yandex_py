@@ -4,5 +4,3 @@ def count_ones(num):
         count += 1
         pass
     return count
-
-# https://codechick.io/challenges/98 TODO: ?
