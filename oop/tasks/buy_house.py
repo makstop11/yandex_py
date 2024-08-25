@@ -1,5 +1,3 @@
-
-
 class Human:
     default_name: str = "Неизвестный"
     default_age: int = 0
