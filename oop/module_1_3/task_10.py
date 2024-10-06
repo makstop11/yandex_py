@@ -3,11 +3,10 @@ class Person:
     job: str = 'Программист'
     ity: str = 'Москва'
 
-p1 = Person()
+p_1 = Person()
 
-# TODO: На доработку
-print(True if getattr(p1, 'job') else False)
-
+print(True if getattr(p_1, 'job') else False)
+print(hasattr(p_1, 'job'))
 
 # setattr() - установить атрибут
 # getattr() - получить атрибут
