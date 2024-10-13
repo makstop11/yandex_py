@@ -1,13 +1,12 @@
 class MediaPlayer:
-
-    def open(self, file: str):
+    def open(self, file):
         self.filename = file
 
-        return self.filename
+    def play(self):
+        print(f'Воспроизведение{self.filename}')
 
-    # TODO: доработать
 
-
-mp_1 = MediaPlayer()
-mp_1.open("video.mp4")
-print(mp_1.__dict__)
+media1 = MediaPlayer()
+media2 = MediaPlayer()
+media1.open('filemedia')
+media2.open('filemedia')
