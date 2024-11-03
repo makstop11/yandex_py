@@ -22,7 +22,7 @@ class MotherBoard:
         self.cpu = cpu
         self.total_mem_slots = total_mem_slots
         self.mem_slots = [
-            Memory("Model", 8)
+            Memory('Model', 8)
             for _ in range(1, self.total_mem_slots + 1)
         ]
 
@@ -42,9 +42,9 @@ class MotherBoard:
         ]
 
 
-if __name__ == "__main__":
-    cpu_1: CPU = CPU("Intel 64x", 5.5)
+if __name__ == '__main__':
+    cpu_1: CPU = CPU('Intel 64x', 5.5)
 
-    mother_board = MotherBoard("MSI", cpu_1, 2)
+    mother_board = MotherBoard('MSI', cpu_1, 2)
 
     print(mother_board.get_config())
