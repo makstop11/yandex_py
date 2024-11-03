@@ -22,10 +22,13 @@ class MotherBoard:
         self.cpu = cpu
         self.total_mem_slots = total_mem_slots
 
+    def get_config(self):
+        print(f'Материнская плата:{self.name}'
+              f'Центральный процессор:{self.cpu}'
+              f'Слотов памяти:{self.total_mem_slots}'
+              )
 
-if __name__ == "__main__":
-    cpu_1: CPU = CPU("Intel 64x", 5.5)
+    if __name__ == "__main__":
+        cpu_1: CPU = CPU("Intel 64x", 5.5)
 
-    board = MotherBoard("MSI", cpu_1, 4)
-
-    # TODO: дорешать
+        board = MotherBoard("MSI", cpu_1, 4)
