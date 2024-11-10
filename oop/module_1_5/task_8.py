@@ -1,5 +1,5 @@
 class Cart:
-
+    # TODO: Дорешать
     def __init__(self):
         self.goods = []
 
@@ -36,4 +36,3 @@ if __name__ == "__main__":
     print(cart.goods)
     cart.remove(2)
     print(cart.goods)
-    
