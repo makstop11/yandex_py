@@ -9,10 +9,7 @@ class Human:
         self.__house = None
 
     def info(self):
-        print(f'Имя: {self.name}')
-        print(f'Возраст: {self.age}')
-        print(f'Ваш счёт: {self.__money}')
-        print(f'Ваш дом: {self.__house}')
+        print(self)
 
     @staticmethod
     def default_info():
@@ -31,6 +28,12 @@ class Human:
     def by_house(self):
         pass
 
+    def __str__(self) -> str:
+        return (f'\nИмя: {self.name}'
+                f'\nВозраст: {self.age}'
+                f'\nВаш счёт: {self.__money}'
+                f'\nВаш дом: {self.__house}')
+
 
 class House:
     def __init__(self, area, price):
@@ -47,8 +50,9 @@ class House:
 if __name__ == '__main__':
     # TODO: Добавить аннотация ко всем идентификатором.
 
-    h_1 = Human()
+    vasya = Human()
+    # print(vasya)
 
-    h_1.info()
-    h_1.earn_money(500)
-    h_1.info()
+    vasya.info()
+    vasya.earn_money(500)
+    vasya.info()
