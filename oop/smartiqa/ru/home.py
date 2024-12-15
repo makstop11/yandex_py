@@ -9,11 +9,10 @@ class Human:
         self.__house = None
 
     def info(self):
-        # TODO: Улучшить вывод.
-        print(self.name)
-        print(self.age)
-        print(self.__money)
-        print(self.__house)
+        print(f'Имя: {self.name}')
+        print(f'Возраст: {self.age}')
+        print(f'Ваш счёт: {self.__money}')
+        print(f'Ваш дом: {self.__house}')
 
     @staticmethod
     def default_info():
