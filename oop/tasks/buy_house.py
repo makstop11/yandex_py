@@ -3,10 +3,10 @@ class Human:
     default_age: int = 0
 
     def __init__(self, name=default_name, age=default_age):
-        self.name = name
-        self.age = age
-        self.__money = 0
-        self.__house = None
+        self.name: str = name
+        self.age: int = age
+        self.__money: int = 0
+        self.__house: str = None
 
     def info(self):
         print(
@@ -19,12 +19,12 @@ class Human:
         print(Human.default_name, Human.default_age)
 
     def __make_deal(self, house_obj, price):
-        self.__money = self.__money - price
-        self.__house = house_obj
+        self.__money: int = self.__money - price
+        self.__house: str = house_obj
         print(f"Вы приобрели дом: {house_obj}")
 
     def earn_money(self, amount):
-        self.__money = self.__money + amount
+        self.__money: int = self.__money + amount
 
     def buy_house(self, house, discount):
         house_price = house.final_price(discount)
@@ -36,12 +36,12 @@ class Human:
 
 class House:
     def __init__(self, area, price):
-        self._area = area
-        self._price = price
+        self._area: int = area
+        self._price: int = price
 
     def final_price(self, sale):
-        discount_sum = (self._price / 100) * sale
-        result = self._price - discount_sum
+        discount_sum: int = (self._price / 100) * sale
+        result: int = self._price - discount_sum
         return result
 
 

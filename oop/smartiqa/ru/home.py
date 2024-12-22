@@ -26,7 +26,7 @@ class Human:
 
     # TODO: Параметры метода: ссылка на дом и размер скидки
     def by_house(self):
-        pass
+        self.__house
 
     def __str__(self) -> str:
         return (f'\nИмя: {self.name}'
