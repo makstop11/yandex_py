@@ -25,7 +25,7 @@ class Human:
         self.__money += money
 
     # TODO: Параметры метода: ссылка на дом и размер скидки
-    def by_house(self):
+    def buy_house(self):
         self.__house
 
     def __str__(self) -> str:
