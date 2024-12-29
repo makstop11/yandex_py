@@ -3,9 +3,9 @@ class Human:
     default_age = 0
 
     def __init__(self, name=defalt_name, age=default_age):
-        self.name = name
-        self.age = age
-        self.__money = 0
+        self.name: str = name
+        self.age: int = age
+        self.__money: int = 0
         self.__house = None
 
     def info(self):
@@ -37,20 +37,22 @@ class Human:
 
 class House:
     def __init__(self, area, price):
-        self._area = area
-        self._price = price
+        self._area: int = area
+        self._price: int = price
 
     def final_price(self, discount):
-        # TODO: Неправильная реализация.
-        self._price = discount
+        self._price: int = self._price - (self._price / 100 * discount)
+    def __str__(self) -> str:
+        pass
 
+class SmallHouse(House):
+    def __init__(self):
+        self._area: int = 40
 
-# TODO: SmallHouse
 
 if __name__ == '__main__':
-    # TODO: Добавить аннотация ко всем идентификатором.
 
-    vasya = Human()
+    vasya:str = Human()
     # print(vasya)
 
     vasya.info()
