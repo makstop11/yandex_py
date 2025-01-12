@@ -30,12 +30,11 @@ class EngAlphabet(Alphabet):
     def letters_num(self) -> int:
         return self.__letters_num
 
+    # TODO: Реализовать 6 пункт
+
+
 if __name__ == '__main__':
-    # vasya: Human = Human('Василий', 22)
-    # vasya.info()
-    # vasya.earn_money(1_500_000)
-    #
-    # h_1 = House(30, 1_000_000)
-    #
-    # vasya.buy_house(h_1, 0)
-    # vasya.info()
+    eng_1: EngAlphabet = EngAlphabet()
+    eng_1.print()
+
+    # TODO: Доработать Тесты 3, 4, 5, 6:
