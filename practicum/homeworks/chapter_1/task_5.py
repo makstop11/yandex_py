@@ -1,6 +1,6 @@
-num = int(input())
+bytes_data: int = int(input())
 
-Kbytes = num / 1024
-Mbytes = Kbytes / 1024
+kb_bytes: float = bytes_data / 1024
+mb_bytes: float = kb_bytes / 1024
 
-print(Kbytes, Mbytes)
+print(kb_bytes, mb_bytes)
