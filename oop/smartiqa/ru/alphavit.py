@@ -36,5 +36,8 @@ class EngAlphabet(Alphabet):
 if __name__ == '__main__':
     eng_1: EngAlphabet = EngAlphabet()
     eng_1.print()
-
-    # TODO: Доработать Тесты 3, 4, 5, 6:
+    print(eng_1.__letters_num)
+    
+    print('Travelling to far countries is always a thrilling and interesting adventure. Heading for the other end of '
+          'the world, it’s impossible to go without such an aircraft as “a plane”. But before boarding a plane, one'
+          ' must book a seat in advance and go though other different formalities.')
