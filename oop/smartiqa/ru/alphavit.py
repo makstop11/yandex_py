@@ -38,6 +38,7 @@ if __name__ == '__main__':
     eng_1.print()
     print(eng_1.letters_num())
     print(eng_1.is_en_letter('F'))
+    print(eng_1.is_en_letter('Щ'))
 
     print('Travelling to far countries is always a thrilling and interesting adventure. Heading for the other end of '
           'the world, it’s impossible to go without such an aircraft as “a plane”. But before boarding a plane, one'
