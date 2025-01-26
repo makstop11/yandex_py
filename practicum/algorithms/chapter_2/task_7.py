@@ -1,7 +1,8 @@
 d = int(input())
-a = int(input())
+square_width: int = int(input())
 
-if d > a:
+# TODO: Проверить правильность формулы.
+if d > square_width:
     print('Можно')
 else:
     print('Нельзя')
