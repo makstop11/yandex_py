@@ -30,7 +30,8 @@ class EngAlphabet(Alphabet):
     def letters_num(self) -> int:
         return self.__letters_num
 
-    # TODO: Реализовать 6 пункт
+    def example(self):
+        return 'Travelling to far countries is always a thrilling and interesting adventure.'
 
 
 if __name__ == '__main__':
@@ -40,6 +41,4 @@ if __name__ == '__main__':
     print(eng_1.is_en_letter('F'))
     print(eng_1.is_en_letter('Щ'))
 
-    print('Travelling to far countries is always a thrilling and interesting adventure. Heading for the other end of '
-          'the world, it’s impossible to go without such an aircraft as “a plane”. But before boarding a plane, one'
-          ' must book a seat in advance and go though other different formalities.')
+    print(eng_1.example())
