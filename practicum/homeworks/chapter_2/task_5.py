@@ -1,15 +1,12 @@
-a = int(input('Длина коробки: '))
-b = int(input('Ширина коробки: '))
-c = int(input('Высота коробки: '))
+a = int(input('длина коробки: '))
+b = int(input('ширина коробки: '))
+c = int(input('высота коробки: '))
 
-m = int(input('Длина двери: '))
-k = int(input('Ширина двери: '))
+d = int(input('ширина двери: '))
+i = int(input('высота двери: '))
 
-# TODO: Проверить правильность формул.
-volume = a * b * c
-door_area = m * k
-
-if volume < door_area:
+if (c <= i and b <= i) or (c <= i and c <= i) or (a <= i and b <= i):
     print('Коробка пройдёт')
+
 else:
-    print('Ваша коробка не пройдёт')
+    print('Коробка не пройдёт')
