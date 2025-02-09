@@ -1,12 +1,11 @@
-def check_num(number: int):
+def check_num(number: int) -> str:
     if number > 0:
-        print('Положительное число')
+        return 'Положительное число'
     elif number < 0:
-        print('Отрицательное число')
-    else:
-        print('Ноль')
+        return 'Отрицательное число'
+    return 'Ноль'
 
 
-if __name__ == "__main__":
-    number: int = int(input())
-    print(check_num(number))
+if __name__ == '__main__':
+    num: int = int(input())
+    print(check_num(num))

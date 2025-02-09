@@ -1,16 +1,12 @@
 import math
 
-s = int(input())
+square_area = int(input())
 r = int(input())
 k = int(input())
 
+square_side = math.sqrt(square_area)
 
-l = math.sqrt(s)
-
-
-c = r - k
-
-if (r * 2 + k) < l:
+if (r * 2 + k) <= square_side:
     print('Можно')
 else:
     print('Нельзя')
