@@ -1,4 +1,10 @@
-a = int(input())
+p = int(input())
 
-if a % 5 == 0 and a % 2 != 0:
-    print(a)
+if p == 5:
+    s = 'Молодец'
+elif p == 4:
+    s = 'Хорошо'
+else:
+    s = 'Лентяй'
+
+print(s)
