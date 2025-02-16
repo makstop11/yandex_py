@@ -1,7 +1,7 @@
 n = int(input())
 
-x = 2
-y = 3
+x = 0
+y = 1
 
 
 while x < n:
@@ -9,6 +9,7 @@ while x < n:
     temp = y
     y = x + y
     x = temp
+    print(x, y)
 
 
 # temp = 1
@@ -22,12 +23,12 @@ while x < n:
 
 # temp = 2
 # y = 3
-# x = 2
+# x = 1
 
 
 # temp = 3
 # y = 5
-# x = 3
+# x = 2
 
 
 # temp = 5
